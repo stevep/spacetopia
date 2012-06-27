@@ -1,6 +1,5 @@
 Messages = new Meteor.Collection('messages');
 
-
 if (Meteor.is_client) {
 
   var okcancel_events = function(selector) {
