@@ -1,5 +1,5 @@
 <head>
-  <title>Chat</title>
+  <title>Spacetopia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -23,9 +23,8 @@
     <div class="navbar navbar-fixed-bottom">
       <div class="navbar-inner">
         <div class="container">
-          <form class="navbar-form pull-left">
+          
             {{> entry}}
-          </form>
         </div>
       </div>
     </div>
@@ -38,7 +37,17 @@
 </body>
 
 <template name="entry">
-  <p><input type="text" id="name" placeholder="Your Name"> <input type="text" id="messageBox" placeholder="Your Message"></p>
+  <form id="entry"  class="navbar-form pull-left">
+    <divclass="control-group">
+      <div class="controls">
+        <div class="input-prepend input-append">
+          <span><input type="text" id="name"  class="input-mini" placeholder="Name"></span><input type="text" id="messageBox" placeholder="Message"><button id="post" class="btn btn-primary" type="button">Post</button>
+        </div>
+        
+
+      </div>
+    </div>
+  </form>
 </template>
 
 <template name="messages">
@@ -48,5 +57,5 @@
 </template>
 
 <template name="message">
-  <p><strong>{{name}}:</strong> {{message}}</p>
+  <p class="message"><strong>{{name}}:</strong> {{message}} <span class="timestamp">{{formattime time}}</span></p>
 </template>

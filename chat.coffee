@@ -1,35 +1,39 @@
 Messages = new Meteor.Collection 'messages'
 
 if Meteor.is_client
-  okcancel_events = (selector) ->
-    'keyup '+selector+', keydown '+selector+', focusout '+selector
 
+  postMessage = (event) ->
+    name =      document.getElementById("name")
+    message =   document.getElementById("messageBox")
+    timestamp = Date.now() / 1000
 
-  make_okcancel_handler = (options) ->
+    unless message.value == "" or name.value == ""
+      Messages.insert(
+        name:     name.value 
+        message:  message.value 
+        time:     timestamp
+      )
+
+      message.value = ""
+
+  postMessageHandler = (options) ->
     ok = options.ok || ->
-    cancel = options.cancel || ->
 
     (evt) ->
-      if evt.type == "keydown" && evt.which == 27
-        cancel.call(this, evt)
-      else if evt.type == "keyup" && evt.which == 13
-        value = String(evt.target.value || "")
-        if value
-          ok.call(this, value, evt)
-        else
-          cancel.call(this, evt)
+      if evt.type == "keyup" and evt.which == 13
+        ok.call(this, evt)
+      else if evt.type == "click" and evt.target.id == "post"
+        ok.call(this, evt)
 
   Template.entry.events = {}
-
-  Template.entry.events[okcancel_events('#messageBox')] = make_okcancel_handler(
-    ok: (text, event) ->
-      name = document.getElementById("name")
-      timestamp = Date.now() / 1000
-      if (name.value != "")
-        Messages.insert({name: name.value, message: text, time: timestamp})
-        event.target.value = ""
+  Template.entry.events['keyup #messageBox, click #post'] = postMessageHandler(
+    ok: postMessage
   )
 
   Template.messages.messages = ->
     Messages.find({}, { sort: {time: -1} })
 
+  Handlebars.registerHelper('formattime', (timestamp, options) ->
+    d = new Date(timestamp);
+    (if ((d.getHours() + 8)% 24) <= 9 then "0" else "")+((d.getHours() + 8) % 24)+":"+(if d.getMinutes() <= 9 then "0" else ""+d.getMinutes())+":"+(if d.getSeconds() <= 9 then "0" else "")+d.getSeconds()
+  )
