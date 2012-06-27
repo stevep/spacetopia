@@ -34,5 +34,5 @@ if Meteor.is_client
 
   Handlebars.registerHelper('formattime', (timestamp, options) ->
     d = new Date(Math.round(timestamp*1000))
-    (if (d.getHours()% 24) <= 9 then "0" else "")+(d.getHours() % 24)+":"+(if d.getMinutes() <= 9 then "0" else ""+d.getMinutes())+":"+(if d.getSeconds() <= 9 then "0" else "")+d.getSeconds()
+    (if (d.getHours()% 24) <= 9 then "0" else "")+(d.getHours() % 24)+":"+(if d.getMinutes() <= 9 then "0" else "")+d.getMinutes()+":"+(if d.getSeconds() <= 9 then "0" else "")+d.getSeconds()
   )
