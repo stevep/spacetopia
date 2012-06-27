@@ -1,11 +1,40 @@
 <head>
   <title>Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  {{> entry}}
+  <div id="app" class="container">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Spacetopia</a>
+        </div>
+      </div>
+    </div>
 
-  {{> messages}}
+
+    <div class="row-fluid">
+      <div class="span10 offset1">
+        {{> messages}}
+      </div>
+    </div>
+
+    <div class="navbar navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container">
+          <form class="navbar-form pull-left">
+            {{> entry}}
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  
+
+
 </body>
 
 <template name="entry">
