@@ -5,13 +5,12 @@ if Meteor.is_client
   postMessage = (event) ->
     name =      document.getElementById("name")
     message =   document.getElementById("messageBox")
-    timestamp = Date.now() / 1000
 
     unless message.value == "" or name.value == ""
       Messages.insert(
         name:     name.value 
         message:  message.value 
-        time:     timestamp
+        time:     Date.now() / 1000
       )
 
       message.value = ""
@@ -34,6 +33,6 @@ if Meteor.is_client
     Messages.find({}, { sort: {time: -1} })
 
   Handlebars.registerHelper('formattime', (timestamp, options) ->
-    d = new Date(timestamp);
-    (if ((d.getHours() + 8)% 24) <= 9 then "0" else "")+((d.getHours() + 8) % 24)+":"+(if d.getMinutes() <= 9 then "0" else ""+d.getMinutes())+":"+(if d.getSeconds() <= 9 then "0" else "")+d.getSeconds()
+    d = new Date(Math.round(timestamp*1000))
+    (if (d.getHours()% 24) <= 9 then "0" else "")+(d.getHours() % 24)+":"+(if d.getMinutes() <= 9 then "0" else ""+d.getMinutes())+":"+(if d.getSeconds() <= 9 then "0" else "")+d.getSeconds()
   )
